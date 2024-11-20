@@ -1,15 +1,23 @@
 package edu.grinnell.csc207.blockchains;
 
+
 /**
  * Blocks to be stored in blockchains.
  *
- * @author Your Name Here
+ * @author Luis Lopez
+ * @author Alex Cyphers
  * @author Samuel A. Rebelsky
  */
 public class Block {
   // +--------+------------------------------------------------------
   // | Fields |
   // +--------+
+
+  int num;
+  Transaction transaction;
+  Hash prevHash;
+  long nonce;
+  Hash currHash;
 
   // +--------------+------------------------------------------------
   // | Constructors |
@@ -31,7 +39,12 @@ public class Block {
    */
   public Block(int num, Transaction transaction, Hash prevHash,
       HashValidator check) {
-    // STUB
+
+    if (check.isValid(this.currHash)) {
+      this.num = num;
+      this.transaction = transaction;
+      this.prevHash = prevHash;
+    }
   } // Block(int, Transaction, Hash, HashValidator)
 
   /**
@@ -47,7 +60,10 @@ public class Block {
    *   The nonce of the block.
    */
   public Block(int num, Transaction transaction, Hash prevHash, long nonce) {
-    // STUB
+    this.num = num;
+    this.transaction = transaction;
+    this.prevHash = prevHash;
+    this.nonce = nonce;
   } // Block(int, Transaction, Hash, long)
 
   // +---------+-----------------------------------------------------
@@ -59,7 +75,7 @@ public class Block {
    * stored in the block.
    */
   static void computeHash() {
-    // STUB
+    
   } // computeHash()
 
   // +---------+-----------------------------------------------------
@@ -72,7 +88,7 @@ public class Block {
    * @return the number of the block.
    */
   public int getNum() {
-    return 0;   // STUB
+    return this.num;
   } // getNum()
 
   /**
@@ -81,7 +97,7 @@ public class Block {
    * @return the transaction.
    */
   public Transaction getTransaction() {
-    return new Transaction("Here", "There", 0); // STUB
+    return new Transaction(this.transaction.getSource(), this.transaction.getTarget(), this.transaction.getAmount());
   } // getTransaction()
 
   /**
@@ -90,7 +106,7 @@ public class Block {
    * @return the nonce.
    */
   public long getNonce() {
-    return 0;   // STUB
+    return this.nonce;
   } // getNonce()
 
   /**
@@ -99,7 +115,7 @@ public class Block {
    * @return the hash of the previous block.
    */
   Hash getPrevHash() {
-    return new Hash(new byte[] {0});  // STUB
+    return this.prevHash;
   } // getPrevHash
 
   /**
@@ -108,7 +124,7 @@ public class Block {
    * @return the hash of the current block.
    */
   Hash getHash() {
-    return new Hash(new byte[] {0});  // STUB
+    return this.currHash;
   } // getHash
 
   /**
@@ -117,6 +133,6 @@ public class Block {
    * @return a string representation of the block.
    */
   public String toString() {
-    return "";  // STUB
+    return this.currHash.toString();
   } // toString()
 } // class Block
