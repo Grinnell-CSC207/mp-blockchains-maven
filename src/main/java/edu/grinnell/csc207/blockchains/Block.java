@@ -1,4 +1,6 @@
 package edu.grinnell.csc207.blockchains;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 
 /**
@@ -74,8 +76,13 @@ public class Block {
    * Compute the hash of the block given all the other info already
    * stored in the block.
    */
-  static void computeHash() {
-    
+  void computeHash() {
+    try {
+      MessageDigest md = MessageDigest.getInstance("SHA-256");
+      String message = num + transaction.toString() + prevHash.toString() + nonce + currHash.toString();
+      md.update(message.getBytes());
+    } catch (NoSuchAlgorithmException e) {
+    }
   } // computeHash()
 
   // +---------+-----------------------------------------------------

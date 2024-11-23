@@ -28,7 +28,7 @@ public class Hash {
    *   The data to copy into the hash.
    */
   public Hash(byte[] data) {
-    this.byteData = data;
+    this.byteData = Arrays.copyOf(data, data.length);
     this.length = this.byteData.length;
   } // Hash(byte[])
 
@@ -92,22 +92,13 @@ public class Hash {
    *   otherwise.
    */
   public boolean equals(Object other) {
-    return ((other instanceof Hash) && (this.equals((Hash) other)));
+    if (other instanceof Hash) {
+      return Arrays.equals(((Hash) other).byteData, this.byteData);
+    } else{
+      return false;
+    }
   } // equals(Object)
 
-
-  /**
-   * Determine if this is equal to another object.
-   *
-   * @param other
-   *   The object to compare to.
-   *
-   * @return true if the two objects are conceptually equal and false
-   *   otherwise.
-   */
-  public boolean equals(Hash other) {
-    return (this.length == other.length()) && this.equals(other);
-  } // equals(Hash)
 
   /**
    * Get the hash code of this object.
