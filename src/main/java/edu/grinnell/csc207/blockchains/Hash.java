@@ -94,7 +94,7 @@ public class Hash {
   public boolean equals(Object other) {
     if (other instanceof Hash) {
       return Arrays.equals(((Hash) other).byteData, this.byteData);
-    } else{
+    } else {
       return false;
     }
   } // equals(Object)

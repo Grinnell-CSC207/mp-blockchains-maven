@@ -42,11 +42,15 @@ public class Block {
   public Block(int num, Transaction transaction, Hash prevHash,
       HashValidator check) {
 
-    if (check.isValid(this.currHash)) {
       this.num = num;
       this.transaction = transaction;
       this.prevHash = prevHash;
-    }
+      this.computeHash();
+      
+      while (!check.isValid(this.currHash)) {
+        this.nonce++;
+        this.computeHash();
+      } // while-loop
   } // Block(int, Transaction, Hash, HashValidator)
 
   /**
@@ -66,6 +70,7 @@ public class Block {
     this.transaction = transaction;
     this.prevHash = prevHash;
     this.nonce = nonce;
+    this.computeHash();
   } // Block(int, Transaction, Hash, long)
 
   // +---------+-----------------------------------------------------
@@ -81,6 +86,7 @@ public class Block {
       MessageDigest md = MessageDigest.getInstance("SHA-256");
       String message = num + transaction.toString() + prevHash.toString() + nonce + currHash.toString();
       md.update(message.getBytes());
+      this.currHash = new Hash(md.digest());
     } catch (NoSuchAlgorithmException e) {
     }
   } // computeHash()
