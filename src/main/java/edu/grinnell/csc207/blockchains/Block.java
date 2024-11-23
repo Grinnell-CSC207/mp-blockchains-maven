@@ -83,17 +83,21 @@ public class Block {
    */
   void computeHash() {
     try {
-      MessageDigest md = MessageDigest.getInstance("SHA-256");
-      String message = "";
+      MessageDigest md = MessageDigest.getInstance("sha-256");
+      String message = num 
+                       + transaction.getSource()
+                       + transaction.getTarget() 
+                       + transaction.getAmount();
+
       if (prevHash == null) {
-        message = num + transaction.toString() + nonce;
+        message += "null" + nonce;
       } else {
-        message = num + transaction.toString() + prevHash.toString() + nonce;
+        message += prevHash.toString() + nonce;
       }
 
-      if(currHash != null) {
-        message += currHash.toString();
-      }
+      // if(currHash != null) {
+      //   message += currHash.toString();
+      // }
       
       md.update(message.getBytes());
       this.currHash = new Hash(md.digest());
