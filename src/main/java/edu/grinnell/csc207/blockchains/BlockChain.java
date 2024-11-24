@@ -13,10 +13,11 @@ public class BlockChain implements Iterable<Transaction> {
   // +--------+------------------------------------------------------
   // | Fields |
   // +--------+
-    Node currNode;
+    
     Node firstBlock;
     Node lastBlock;
     int size;
+    private HashValidator validator;
   // +--------------+------------------------------------------------
   // | Constructors |
   // +--------------+
@@ -30,6 +31,7 @@ public class BlockChain implements Iterable<Transaction> {
   public BlockChain(HashValidator check) {
     Block blk = new Block(0, new Transaction("", "", 0), new Hash(new byte[] {}), check);
     this.firstBlock = new Node(blk);
+    this.lastBlock = this.firstBlock;
     this.size = 1;
   } // BlockChain(HashValidator)
 
@@ -51,7 +53,7 @@ public class BlockChain implements Iterable<Transaction> {
    * @return a new block with correct number, hashes, and such.
    */
   public Block mine(Transaction t) {
-    return new Block(10, t, new Hash(new byte[] {7}), 11);       // STUB
+    return new Block(size, t, lastBlock.getBlock().getHash(), validator);
   } // mine(Transaction)
 
   /**
@@ -74,7 +76,8 @@ public class BlockChain implements Iterable<Transaction> {
    *   hash is incorrect.
    */
   public void append(Block blk) {
-    this.lastBlock.addBlock(blk);
+    Node node = new Node(blk);
+    this.lastBlock.addBlock(node);
     this.size++;
   } // append()
 
@@ -86,7 +89,14 @@ public class BlockChain implements Iterable<Transaction> {
    *   is removed).
    */
   public boolean removeLast() {
-    return true;        // STUB
+    if (size < 2) {
+      return false;
+    } // if
+
+    Node curr = firstBlock;
+    while (curr.getNextNode() != lastBlock) {
+      curr = curr.next;
+    } // while-loop
   } // removeLast()
 
   /**

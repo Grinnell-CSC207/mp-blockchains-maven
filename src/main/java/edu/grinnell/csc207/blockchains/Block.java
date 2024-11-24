@@ -82,20 +82,6 @@ public class Block {
    * Compute the hash of the block given all the other info already
    * stored in the block.
    */
-<<<<<<< HEAD
-  void computeHash() {
-    try {
-      MessageDigest md = MessageDigest.getInstance("sha-256");
-      String message = num 
-                       + transaction.getSource()
-                       + transaction.getTarget() 
-                       + transaction.getAmount()
-                       + prevHash.toString()
-                       + nonce;
-
-      
-      md.update(message.getBytes());
-=======
   public void computeHash() {
     try {
       MessageDigest md = MessageDigest.getInstance("sha-256");
@@ -116,7 +102,6 @@ public class Block {
       md.update(bytePrev);
       md.update(byteLong);
 
->>>>>>> 016f4a5e4384551375731ec271614fd71ee3b56f
       this.currHash = new Hash(md.digest());
     } catch (Exception e) {
     }

@@ -1,7 +1,6 @@
 package edu.grinnell.csc207.blockchains;
 
 public class Node {
-  Node prev;
 
   Node next;
 
@@ -16,30 +15,21 @@ public class Node {
    * @param next
    *   The next node in the list (or null, if it's the end of the list).
    */
-  public Node(Block val, Node next) {
+  public Node(Block val) {
     this.block = val;
-    this.next = next;
+    this.next = null;
   } // Node2(Block, Node)
 
-
-  /**
-   * Create a new node with no next link (e.g., if it's at the end of
-   * the list). Included primarily for symmetry.
-   *
-   *   The previous node in the list (or null, if it's the front of the list).
-   * @param val
-   *   The value to be stored in the node.
-   */
-  public Node(Block val) {
-    this(val, null);
-  } // Node2(Node)
 
   public Block getBlock() {
     return this.block;
   }
 
-  public void addBlock(Block val) {
-    Node add = new Node(val);
-    this.next = add;
+  public Node getNextNode() {
+    return next;
+  }
+
+  public void addBlock(Node val) {
+    this.next = val;
   }
 }
