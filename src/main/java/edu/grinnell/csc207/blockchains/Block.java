@@ -1,4 +1,5 @@
 package edu.grinnell.csc207.blockchains;
+import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -15,23 +16,11 @@ public class Block {
   // | Fields |
   // +--------+
 
-<<<<<<< HEAD
   int num;
   Transaction transaction;
   Hash prevHash;
   long nonce;
   Hash currHash;
-=======
-  /**
-   * The transaction.
-   */
-  Transaction transaction;
-
-  /**
-   * The nonce.
-   */
-  long nonce;
->>>>>>> upstream/main
 
   // +--------------+------------------------------------------------
   // | Constructors |
@@ -93,32 +82,35 @@ public class Block {
    * Compute the hash of the block given all the other info already
    * stored in the block.
    */
-  void computeHash() {
-<<<<<<< HEAD
+  public void computeHash() {
     try {
       MessageDigest md = MessageDigest.getInstance("sha-256");
-      String message = num 
-                       + transaction.getSource()
-                       + transaction.getTarget() 
-                       + transaction.getAmount();
+      // String message = Integer.toString(num);
+      // message += transaction.getSource(); 
+      // message += transaction.getTarget();
+      // message += Integer.toString(transaction.getAmount());
+      // message += prevHash.toString();
+      // message += Long.toString(nonce);
 
-      if (prevHash == null) {
-        message += "null" + nonce;
-      } else {
-        message += prevHash.toString() + nonce;
-      }
+      byte[] byteNum = ByteBuffer.allocate(Integer.BYTES).putInt(num).array();
 
-      // if(currHash != null) {
-      //   message += currHash.toString();
-      // }
-      
-      md.update(message.getBytes());
+      byte[] byteTranSrc = transaction.getSource().getBytes();
+      byte[] byteTranTgt = transaction.getTarget().getBytes();
+      byte[] byteTranAmt = ByteBuffer.allocate(Integer.BYTES).putInt(transaction.getAmount()).array();
+
+      byte[] bytePrev = this.prevHash.getBytes();
+      byte[] byteLong = ByteBuffer.allocate(Long.BYTES).putLong(nonce).array();
+
+      md.update(byteNum);
+      md.update(byteTranSrc);
+      md.update(byteTranTgt);
+      md.update(byteTranAmt);
+      md.update(bytePrev);
+      md.update(byteLong);
+
       this.currHash = new Hash(md.digest());
     } catch (Exception e) {
     }
-=======
-    // STUB
->>>>>>> upstream/main
   } // computeHash()
 
   // +---------+-----------------------------------------------------
