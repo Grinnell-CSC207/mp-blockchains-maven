@@ -10,6 +10,6 @@ Authors
 
 Acknowledgements
 
-* _Forthcoming_.
+* Referenced from Lab-Linked-Lists-Maven
 
 This code may be found at <https://github.com/Lui-Lop/mp-blockchains-maven.git>. The original code may be found at <https://github.com/Grinnell-CSC207/mp-blockchinas-maven>.
