@@ -94,9 +94,15 @@ public class BlockChain implements Iterable<Transaction> {
     } // if
 
     Node curr = firstBlock;
+    // Loop until second to last block
     while (curr.getNextNode() != lastBlock) {
       curr = curr.next;
     } // while-loop
+
+    curr.addBlock(null); // Set the last block to null
+    lastBlock = curr; // Set second-to-last block to last block.
+    size--;
+    return true;
   } // removeLast()
 
   /**
@@ -117,7 +123,12 @@ public class BlockChain implements Iterable<Transaction> {
    * @return true if the blockchain is correct and false otherwise.
    */
   public boolean isCorrect() {
-    return true;        // STUB
+    try {
+      check();
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
   } // isCorrect()
 
   /**
@@ -130,7 +141,24 @@ public class BlockChain implements Iterable<Transaction> {
    *   If things are wrong at any block.
    */
   public void check() throws Exception {
-    // STUB
+    Node curr = firstBlock;
+    Hash prevHash = new Hash(new byte[] {});
+
+    while (curr != null) {
+      Block block = curr.getBlock();
+
+      if(!block.getPrevHash().equals(prevHash)) {
+        throw new Exception();
+      } // if
+
+      if(!validator.isValid(block.getHash())) {
+        throw new Exception();
+      } // if
+      prevHash = block.getHash();
+      curr = curr.getNextNode();
+      prevHash = block.getHash();
+      curr = curr.getNextNode();
+    } // while-loop
   } // check()
 
   /**
