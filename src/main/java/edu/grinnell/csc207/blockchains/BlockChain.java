@@ -7,7 +7,8 @@ import edu.grinnell.csc207.blockchains.Node;
 /**
  * A full blockchain.
  *
- * @author Your Name Here
+ * @author Alex Cyphers
+ * @author Luis Lopez
  */
 public class BlockChain implements Iterable<Transaction> {
   // +--------+------------------------------------------------------
@@ -29,6 +30,7 @@ public class BlockChain implements Iterable<Transaction> {
    *   The validator used to check elements.
    */
   public BlockChain(HashValidator check) {
+    this.validator = check;
     Block blk = new Block(0, new Transaction("", "", 0), new Hash(new byte[] {}), check);
     this.firstBlock = new Node(blk);
     this.lastBlock = this.firstBlock;
@@ -96,7 +98,7 @@ public class BlockChain implements Iterable<Transaction> {
     Node curr = firstBlock;
     // Loop until second to last block
     while (curr.getNextNode() != lastBlock) {
-      curr = curr.next;
+      curr = curr.getNextNode();
     } // while-loop
 
     curr.addBlock(null); // Set the last block to null
