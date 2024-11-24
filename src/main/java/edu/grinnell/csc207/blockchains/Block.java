@@ -85,12 +85,6 @@ public class Block {
   public void computeHash() {
     try {
       MessageDigest md = MessageDigest.getInstance("sha-256");
-      // String message = Integer.toString(num);
-      // message += transaction.getSource(); 
-      // message += transaction.getTarget();
-      // message += Integer.toString(transaction.getAmount());
-      // message += prevHash.toString();
-      // message += Long.toString(nonce);
 
       byte[] byteNum = ByteBuffer.allocate(Integer.BYTES).putInt(num).array();
 
