@@ -15,23 +15,11 @@ public class Block {
   // | Fields |
   // +--------+
 
-<<<<<<< HEAD
   int num;
   Transaction transaction;
   Hash prevHash;
   long nonce;
   Hash currHash;
-=======
-  /**
-   * The transaction.
-   */
-  Transaction transaction;
-
-  /**
-   * The nonce.
-   */
-  long nonce;
->>>>>>> upstream/main
 
   // +--------------+------------------------------------------------
   // | Constructors |
@@ -94,31 +82,20 @@ public class Block {
    * stored in the block.
    */
   void computeHash() {
-<<<<<<< HEAD
     try {
       MessageDigest md = MessageDigest.getInstance("sha-256");
       String message = num 
                        + transaction.getSource()
                        + transaction.getTarget() 
-                       + transaction.getAmount();
+                       + transaction.getAmount()
+                       + prevHash.toString()
+                       + nonce;
 
-      if (prevHash == null) {
-        message += "null" + nonce;
-      } else {
-        message += prevHash.toString() + nonce;
-      }
-
-      // if(currHash != null) {
-      //   message += currHash.toString();
-      // }
       
       md.update(message.getBytes());
       this.currHash = new Hash(md.digest());
     } catch (Exception e) {
     }
-=======
-    // STUB
->>>>>>> upstream/main
   } // computeHash()
 
   // +---------+-----------------------------------------------------
