@@ -34,4 +34,12 @@ public class Node {
     this(val, null);
   } // Node2(Node)
 
+  public Block getBlock() {
+    return this.block;
+  }
+
+  public void addBlock(Block val) {
+    Node add = new Node(val);
+    this.next = add;
+  }
 }

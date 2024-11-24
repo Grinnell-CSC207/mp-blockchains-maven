@@ -13,10 +13,10 @@ public class BlockChain implements Iterable<Transaction> {
   // +--------+------------------------------------------------------
   // | Fields |
   // +--------+
-    Block blk;
-    Block firstBlock;
-    Block lastBlock;
-    int length;
+    Node currNode;
+    Node firstBlock;
+    Node lastBlock;
+    int size;
   // +--------------+------------------------------------------------
   // | Constructors |
   // +--------------+
@@ -28,7 +28,9 @@ public class BlockChain implements Iterable<Transaction> {
    *   The validator used to check elements.
    */
   public BlockChain(HashValidator check) {
-    this.firstBlock = new Block(0, new Transaction("", "", 0), new Hash(new byte[] {}), check);
+    Block blk = new Block(0, new Transaction("", "", 0), new Hash(new byte[] {}), check);
+    this.firstBlock = new Node(blk);
+    this.size = 1;
   } // BlockChain(HashValidator)
 
   // +---------+-----------------------------------------------------
@@ -58,7 +60,7 @@ public class BlockChain implements Iterable<Transaction> {
    * @return the number of blocks in the chain, including the initial block.
    */
   public int getSize() {
-    return 2;   // STUB
+    return this.size;
   } // getSize()
 
   /**
@@ -72,7 +74,8 @@ public class BlockChain implements Iterable<Transaction> {
    *   hash is incorrect.
    */
   public void append(Block blk) {
-    // STUB
+    this.lastBlock.addBlock(blk);
+    this.size++;
   } // append()
 
   /**
@@ -92,7 +95,7 @@ public class BlockChain implements Iterable<Transaction> {
    * @return the hash of the last sblock in the chain.
    */
   public Hash getHash() {
-    return new Hash(new byte[] {2, 0, 7});   // STUB
+    return this.lastBlock.getBlock().getHash();
   } // getHash()
 
   /**
