@@ -1,4 +1,5 @@
 package edu.grinnell.csc207.blockchains;
+import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -81,6 +82,7 @@ public class Block {
    * Compute the hash of the block given all the other info already
    * stored in the block.
    */
+<<<<<<< HEAD
   void computeHash() {
     try {
       MessageDigest md = MessageDigest.getInstance("sha-256");
@@ -93,6 +95,28 @@ public class Block {
 
       
       md.update(message.getBytes());
+=======
+  public void computeHash() {
+    try {
+      MessageDigest md = MessageDigest.getInstance("sha-256");
+
+      byte[] byteNum = ByteBuffer.allocate(Integer.BYTES).putInt(num).array();
+
+      byte[] byteTranSrc = transaction.getSource().getBytes();
+      byte[] byteTranTgt = transaction.getTarget().getBytes();
+      byte[] byteTranAmt = ByteBuffer.allocate(Integer.BYTES).putInt(transaction.getAmount()).array();
+
+      byte[] bytePrev = this.prevHash.getBytes();
+      byte[] byteLong = ByteBuffer.allocate(Long.BYTES).putLong(nonce).array();
+
+      md.update(byteNum);
+      md.update(byteTranSrc);
+      md.update(byteTranTgt);
+      md.update(byteTranAmt);
+      md.update(bytePrev);
+      md.update(byteLong);
+
+>>>>>>> 016f4a5e4384551375731ec271614fd71ee3b56f
       this.currHash = new Hash(md.digest());
     } catch (Exception e) {
     }
