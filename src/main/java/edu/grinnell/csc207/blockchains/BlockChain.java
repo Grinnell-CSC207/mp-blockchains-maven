@@ -171,12 +171,26 @@ public class BlockChain implements Iterable<Transaction> {
    */
   public Iterator<String> users() {
     return new Iterator<String>() {
+
+      private Node curr = firstBlock;
+
       public boolean hasNext() {
-        return false;   // STUB
+        return curr != null;
       } // hasNext()
 
       public String next() {
-        throw new NoSuchElementException();     // STUB
+        if(curr == null) {
+          throw new NoSuchElementException();
+        }
+        Transaction transaction = curr.getBlock().getTransaction();
+        String user = "";
+        if(!transaction.getSource().isEmpty()) {
+          user = transaction.getSource();
+        } else if (!transaction.getTarget().isEmpty()) {
+          user = transaction.getTarget();
+        } // if/else
+        curr = curr.getNextNode();
+        return user;
       } // next()
     };
   } // users()
@@ -190,7 +204,23 @@ public class BlockChain implements Iterable<Transaction> {
    * @return that user's balance (or 0, if the user is not in the system).
    */
   public int balance(String user) {
-    return 0;   // STUB
+    int balance = 0;
+    Node curr = firstBlock;
+
+    while (curr != null) {
+      Transaction transaction = curr.getBlock().getTransaction();
+      int amount = transaction.getAmount();
+      if(user.equals(transaction.getTarget())) {
+        balance += amount;
+      }
+      else if (user.equals(transaction.getSource())) {
+        balance -= amount;
+      } // if/else
+
+      curr = curr.getNextNode();
+    } // while-loop
+
+    return balance;
   } // balance()
 
   /**
