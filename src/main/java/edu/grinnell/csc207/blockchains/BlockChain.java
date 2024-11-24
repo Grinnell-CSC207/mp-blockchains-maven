@@ -200,12 +200,19 @@ public class BlockChain implements Iterable<Transaction> {
    */
   public Iterator<Block> blocks() {
     return new Iterator<Block>() {
+
+      private Node curr = firstBlock;
+
       public boolean hasNext() {
-        return false;   // STUB
+        return curr != null;
       } // hasNext()
 
       public Block next() {
-        throw new NoSuchElementException();     // STUB
+        if(curr == null) {
+          throw new NoSuchElementException();
+        }
+        Block block = curr.getBlock();
+        return block;
       } // next()
     };
   } // blocks()
@@ -217,12 +224,19 @@ public class BlockChain implements Iterable<Transaction> {
    */
   public Iterator<Transaction> iterator() {
     return new Iterator<Transaction>() {
+
+      private Node curr = firstBlock;
+
       public boolean hasNext() {
-        return false;   // STUB
+        return curr != null;
       } // hasNext()
 
       public Transaction next() {
-        throw new NoSuchElementException();     // STUB
+        if(curr == null) {
+          throw new NoSuchElementException();
+        }
+        Transaction transaction = curr.getBlock().getTransaction();
+        return transaction;
       } // next()
     };
   } // iterator()
