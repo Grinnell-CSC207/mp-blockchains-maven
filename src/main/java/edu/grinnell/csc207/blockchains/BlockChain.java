@@ -97,7 +97,7 @@ public class BlockChain implements Iterable<Transaction> {
 
     Node curr = firstBlock;
     // Loop until second to last block
-    while (curr.getNextNode() != lastBlock) {
+    while (curr.getNextNode() != lastBlock && curr.getNextNode() != null) {
       curr = curr.getNextNode();
     } // while-loop
 
@@ -242,6 +242,7 @@ public class BlockChain implements Iterable<Transaction> {
           throw new NoSuchElementException();
         }
         Block block = curr.getBlock();
+        curr = curr.getNextNode();
         return block;
       } // next()
     };
@@ -266,6 +267,7 @@ public class BlockChain implements Iterable<Transaction> {
           throw new NoSuchElementException();
         }
         Transaction transaction = curr.getBlock().getTransaction();
+        curr = curr.getNextNode();
         return transaction;
       } // next()
     };
