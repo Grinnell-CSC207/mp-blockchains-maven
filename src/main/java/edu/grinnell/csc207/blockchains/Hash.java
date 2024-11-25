@@ -13,9 +13,9 @@ public class Hash {
   // | Fields |
   // +--------+
 
-  byte[] byteData;
+  private byte[] byteData;
 
-  int length;
+  private int length;
 
   // +--------------+------------------------------------------------
   // | Constructors |

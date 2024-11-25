@@ -15,9 +15,9 @@ public class BlockChain implements Iterable<Transaction> {
   // | Fields |
   // +--------+
     
-    Node firstBlock;
-    Node lastBlock;
-    int size;
+    private Node firstBlock;
+    private Node lastBlock;
+    private int size;
     private HashValidator validator;
   // +--------------+------------------------------------------------
   // | Constructors |
@@ -78,6 +78,8 @@ public class BlockChain implements Iterable<Transaction> {
    *   hash is incorrect.
    */
   public void append(Block blk) {
+    blk.computeHash();
+
     if(!validator.isValid(blk.getHash())) {
       throw new IllegalArgumentException();
     }
@@ -157,6 +159,7 @@ public class BlockChain implements Iterable<Transaction> {
 
     while (curr != null) {
       Block block = curr.getBlock();
+      Transaction transaction = block.getTransaction();
 
       if(!block.getPrevHash().equals(prevHash)) {
         throw new Exception();
@@ -165,8 +168,13 @@ public class BlockChain implements Iterable<Transaction> {
       if(!validator.isValid(block.getHash())) {
         throw new Exception();
       } // if
-      prevHash = block.getHash();
-      curr = curr.getNextNode();
+
+      if(!transaction.getSource().isEmpty()) {
+        if(balance(transaction.getSource()) < transaction.getAmount()){
+          throw new IllegalArgumentException();
+        }
+      }
+
       prevHash = block.getHash();
       curr = curr.getNextNode();
     } // while-loop

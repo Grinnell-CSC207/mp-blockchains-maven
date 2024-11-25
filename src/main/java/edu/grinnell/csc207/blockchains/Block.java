@@ -16,11 +16,11 @@ public class Block {
   // | Fields |
   // +--------+
 
-  int num;
-  Transaction transaction;
-  Hash prevHash;
-  long nonce;
-  Hash currHash;
+  private int num;
+  public Transaction transaction;
+  private Hash prevHash;
+  public long nonce;
+  private Hash currHash;
 
   // +--------------+------------------------------------------------
   // | Constructors |
