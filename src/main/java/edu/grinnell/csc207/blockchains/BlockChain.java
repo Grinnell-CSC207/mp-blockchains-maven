@@ -196,7 +196,7 @@ public class BlockChain implements Iterable<Transaction> {
   public Iterator<String> users() {
     return new Iterator<String>() {
 
-      private Node curr = firstBlock;
+      private Node curr = firstBlock.getNextNode();
 
       public boolean hasNext() {
         return curr != null;
@@ -208,14 +208,15 @@ public class BlockChain implements Iterable<Transaction> {
         }
         Transaction transaction = curr.getBlock().getTransaction();
         String user = "";
-        if(!transaction.getSource().isEmpty()) {
-          user = transaction.getSource();
-        } else if (!transaction.getTarget().isEmpty()) {
+        if (!transaction.getTarget().isEmpty()) {
           user = transaction.getTarget();
         } // if/else
+        
         curr = curr.getNextNode();
         return user;
-      } // next()
+      } // next() 
+
+
     };
   } // users()
 
