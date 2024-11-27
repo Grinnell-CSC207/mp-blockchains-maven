@@ -82,13 +82,13 @@ public class BlockChain implements Iterable<Transaction> {
   public void append(Block blk) {
     blk.computeHash();
 
-    if(!validator.isValid(blk.getHash())) {
-      throw new IllegalArgumentException();
-    }
-   
+    if (!validator.isValid(blk.getHash())) {
+      throw new IllegalArgumentException("The Hash is not valid.");
+    } // if
+
     if (!blk.getPrevHash().equals(lastBlock.getBlock().getHash())) {
-      throw new IllegalArgumentException();
-    }
+      throw new IllegalArgumentException("The previous hash is incorrect.");
+    } // if
 
     Node node = new Node(blk);
     this.lastBlock.addBlock(node);
@@ -170,33 +170,17 @@ public class BlockChain implements Iterable<Transaction> {
         throw new Exception("Invalid negative transaction");
       }
 
-      if(!validator.isValid(block.getHash())) {
-        throw new Exception("isValid");
+      if (!validator.isValid(block.getHash())) {
+        throw new Exception("The hash is not valid.");
       } // if
 
 
-      if(!block.getPrevHash().equals(prevHash)) {
-        throw new Exception("getPrev");
+      if (!block.getPrevHash().equals(prevHash)) {
+        throw new Exception("The previous hash is not correct.");
       } // if
 
 
-      if(!block.getHash().equals(newHash)) {
-        throw new Exception("getHash");
-      }
-      // Not Yet Finished!!!!
-      // if(!transaction.getSource().isEmpty() && amountChange == false) {
-        // if(!transaction.getSource().isEmpty() && balance(transaction.getSource()) < transaction.getAmount()){
-        //   throw new IllegalArgumentException();
-        // }
-      // }
-      // } else if (!transaction.getSource().isEmpty()) {
-      //   if(balance(transaction.getSource()) < transaction.getAmount()) {}
-      //   amountChange = true;
-      // } else if (amountChange == true) {
-        
-      // }
-
-      if(!transaction.getSource().isEmpty()) {
+      if (!transaction.getSource().isEmpty()) {
         int balance = 0;
         Node temp = firstBlock;
 
@@ -212,11 +196,11 @@ public class BlockChain implements Iterable<Transaction> {
           temp = temp.getNextNode();
         }
 
-        if(balance < transaction.getAmount()) {
-          throw new Exception("Invalid amount");
-        }
-      }
-      
+        if (balance < transaction.getAmount()) {
+          throw new Exception("Invalid negative transaction.");
+        } // if
+      } // if
+
       prevHash = block.getHash();
       curr = curr.getNextNode();
     } // while-loop
@@ -239,17 +223,34 @@ public class BlockChain implements Iterable<Transaction> {
       } // hasNext()
 
       public String next() {
-        if(this.curr == null) {
-          throw new NoSuchElementException();
-        }
+        if (this.curr == null) {
+          throw new NoSuchElementException("The current node is null.");
+        } // if
         Transaction transaction = curr.getBlock().getTransaction();
-        String user = transaction.getTarget();
+        String user = "";
+        if (!transaction.getTarget().isEmpty()) {
+          user = transaction.getTarget();
+        } // if
+
+
+        while (users.contains(user)) {
+          curr = curr.getNextNode();
+          if (curr == null) {
+            return user;
+          } // if
+
+          transaction = curr.getBlock().getTransaction();
+          if (!transaction.getTarget().isEmpty()) {
+            user = transaction.getTarget();
+          } // if
+        } // while-loop
+
         users.add(user);
         curr = curr.getNextNode();
 
-        while(curr != null && users.contains(curr.getBlock().getTransaction().getTarget())) {
+        while (curr != null && users.contains(curr.getBlock().getTransaction().getTarget())) {
           curr = curr.getNextNode();
-        }
+        } // while-loop
         return user;
       } // next()
     };
@@ -298,9 +299,9 @@ public class BlockChain implements Iterable<Transaction> {
       } // hasNext()
 
       public Block next() {
-        if(curr == null) {
-          throw new NoSuchElementException();
-        }
+        if (curr == null) {
+          throw new NoSuchElementException("The current node it null.");
+        } // if
         Block block = curr.getBlock();
         curr = curr.getNextNode();
         return block;
@@ -323,9 +324,9 @@ public class BlockChain implements Iterable<Transaction> {
       } // hasNext()
 
       public Transaction next() {
-        if(curr == null) {
-          throw new NoSuchElementException();
-        }
+        if (curr == null) {
+          throw new NoSuchElementException("The current node is null.");
+        } // if
         Transaction transaction = curr.getBlock().getTransaction();
         curr = curr.getNextNode();
         return transaction;

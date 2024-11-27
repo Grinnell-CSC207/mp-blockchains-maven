@@ -23,8 +23,6 @@ public class Node {
    *
    * @param val
    *   The value to be stored in the node.
-   * @param next
-   *   The next node in the list (or null, if it's the end of the list).
    */
   public Node(Block val) {
     this.block = val;
