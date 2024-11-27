@@ -13,8 +13,16 @@ public class Hash {
   // | Fields |
   // +--------+
 
+
+  /**
+   * The byte array of data to copy into the hash.
+   */
   private byte[] byteData;
 
+
+  /**
+   * The number of bytes that are in the hash.
+   */
   private int length;
 
   // +--------------+------------------------------------------------
@@ -78,7 +86,7 @@ public class Hash {
     String str = "";
     for (int i = 0; i < this.length; i++) {
       str = str + String.format("%02X", this.byteData[i]);
-    }
+    } // for-loop
     return str;
   } // toString()
 
@@ -96,7 +104,7 @@ public class Hash {
       return Arrays.equals(((Hash) other).byteData, this.byteData);
     } else {
       return false;
-    }
+    } // if/else
   } // equals(Object)
 
 

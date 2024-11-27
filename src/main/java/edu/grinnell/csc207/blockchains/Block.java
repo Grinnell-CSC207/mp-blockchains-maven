@@ -1,7 +1,6 @@
 package edu.grinnell.csc207.blockchains;
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 
 /**
@@ -64,7 +63,7 @@ public class Block {
    *   The validator used to check the block.
    */
   public Block(int num, Transaction transaction, Hash prevHash,
-    HashValidator check) {
+      HashValidator check) {
 
     this.num = num;
     this.transaction = transaction;
@@ -113,7 +112,8 @@ public class Block {
 
       byte[] byteTranSrc = transaction.getSource().getBytes();
       byte[] byteTranTgt = transaction.getTarget().getBytes();
-      byte[] byteTranAmt = ByteBuffer.allocate(Integer.BYTES).putInt(transaction.getAmount()).array();
+      byte[] byteTranAmt = ByteBuffer.allocate(Integer.BYTES)
+            .putInt(transaction.getAmount()).array();
 
       byte[] bytePrev = this.prevHash.getBytes();
       byte[] byteLong = ByteBuffer.allocate(Long.BYTES).putLong(nonce).array();
@@ -127,7 +127,7 @@ public class Block {
 
       this.currHash = new Hash(md.digest());
     } catch (Exception e) {
-      // No exception thrown
+      // No Exception Thrown
     } // try/catch
   } // computeHash()
 
@@ -150,7 +150,9 @@ public class Block {
    * @return the transaction.
    */
   public Transaction getTransaction() {
-    return new Transaction(this.transaction.getSource(), this.transaction.getTarget(), this.transaction.getAmount());
+    return new Transaction(this.transaction.getSource(),
+                           this.transaction.getTarget(),
+                           this.transaction.getAmount());
   } // getTransaction()
 
   /**
