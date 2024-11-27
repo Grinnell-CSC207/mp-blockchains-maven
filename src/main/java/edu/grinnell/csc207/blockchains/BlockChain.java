@@ -156,7 +156,6 @@ public class BlockChain implements Iterable<Transaction> {
   public void check() throws Exception {
     Node curr = firstBlock;
     Hash prevHash = new Hash(new byte[] {});
-    // Boolean amountChange = false;
 
     while (curr != null) {
       Block block = curr.getBlock();
@@ -181,18 +180,6 @@ public class BlockChain implements Iterable<Transaction> {
       if(!block.getHash().equals(newHash)) {
         throw new Exception("getHash");
       }
-      // Not Yet Finished!!!!
-      // if(!transaction.getSource().isEmpty() && amountChange == false) {
-        // if(!transaction.getSource().isEmpty() && balance(transaction.getSource()) < transaction.getAmount()){
-        //   throw new IllegalArgumentException();
-        // }
-      // }
-      // } else if (!transaction.getSource().isEmpty()) {
-      //   if(balance(transaction.getSource()) < transaction.getAmount()) {}
-      //   amountChange = true;
-      // } else if (amountChange == true) {
-        
-      // }
 
       if(!transaction.getSource().isEmpty()) {
         int balance = 0;
