@@ -109,7 +109,7 @@ public class BlockChainUI {
           pen.printf("\nAmount: ");
           String amnt = eyes.readLine();
           int amt = Integer.valueOf(amnt);
-          pen.printf("\nNonce; ");
+          pen.printf("\nNonce: ");
           String nnc = eyes.readLine();
           long nonce = Long.valueOf(nnc);
           Transaction trans = new Transaction(src, tgt, amt);
@@ -117,7 +117,7 @@ public class BlockChainUI {
           int blknum = chain.getSize();
           Block blk = new Block(blknum, trans, hash, nonce);
           chain.append(blk);
-          pen.printf("\nAppended: Block %d (Transaction: %s, Nonce: %l", blknum, trans.toString(), nonce);
+          pen.printf("\nAppended: %s", blk.toString(), nonce);
           break;
 
         case "balance":
