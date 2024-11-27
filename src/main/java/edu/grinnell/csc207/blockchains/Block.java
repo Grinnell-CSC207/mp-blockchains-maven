@@ -186,6 +186,7 @@ public class Block {
    * @return a string representation of the block.
    */
   public String toString() {
-    return this.currHash.toString();
+    String blk = "Block " + this.getNum() + " (" + this.getTransaction().toString() + " Nonce: " + this.getNonce() + " prevHash: " + this.prevHash + " hash: " + this.getHash() + ")";
+    return blk;
   } // toString()
 } // class Block
