@@ -247,7 +247,7 @@ public class BlockChain implements Iterable<Transaction> {
         users.add(user);
         curr = curr.getNextNode();
 
-        while(curr != null && !users.contains(curr.getBlock().getTransaction().getTarget())) {
+        while(curr != null && users.contains(curr.getBlock().getTransaction().getTarget())) {
           curr = curr.getNextNode();
         }
         return user;
