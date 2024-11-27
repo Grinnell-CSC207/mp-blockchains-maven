@@ -1,8 +1,10 @@
 package edu.grinnell.csc207.blockchains;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import edu.grinnell.csc207.blockchains.Node;
+import java.util.List;
 
 /**
  * A full blockchain.
@@ -217,13 +219,14 @@ public class BlockChain implements Iterable<Transaction> {
     return new Iterator<String>() {
 
       private Node curr = firstBlock.getNextNode();
+      List<String> users = new ArrayList<String>();
 
       public boolean hasNext() {
         return curr != null;
       } // hasNext()
 
       public String next() {
-        if(curr == null) {
+        if(this.curr == null) {
           throw new NoSuchElementException();
         }
         Transaction transaction = curr.getBlock().getTransaction();
@@ -231,12 +234,15 @@ public class BlockChain implements Iterable<Transaction> {
         if (!transaction.getTarget().isEmpty()) {
           user = transaction.getTarget();
         } // if/else
-        
-        curr = curr.getNextNode();
+
+        while (curr != null && users.contains(user)) {
+          if(!curr.getBlock().getTransaction().getTarget().isEmpty()) {
+            user = curr.getBlock().getTransaction().getTarget();
+          }
+        }
+        users.add(user);
         return user;
-      } // next() 
-
-
+      } // next()
     };
   } // users()
 
