@@ -1,6 +1,7 @@
 package edu.grinnell.csc207.blockchains;
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
+import java.util.Random;
 
 
 /**
@@ -69,9 +70,11 @@ public class Block {
     this.transaction = transaction;
     this.prevHash = prevHash;
     this.computeHash();
+    Random random = new Random();
+    this.nonce = random.nextInt(100, 100000);
 
     while (!check.isValid(this.currHash)) {
-      this.nonce++;
+      this.nonce = random.nextInt(100, 100000);
       this.computeHash();
     } // while-loop
   } // Block(int, Transaction, Hash, HashValidator)
