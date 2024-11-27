@@ -158,6 +158,7 @@ public class BlockChain implements Iterable<Transaction> {
   public void check() throws Exception {
     Node curr = firstBlock;
     Hash prevHash = new Hash(new byte[] {});
+    // Boolean amountChange = false;
 
     while (curr != null) {
       Block block = curr.getBlock();
@@ -182,6 +183,18 @@ public class BlockChain implements Iterable<Transaction> {
       if(!block.getHash().equals(newHash)) {
         throw new Exception("getHash");
       }
+      // Not Yet Finished!!!!
+      // if(!transaction.getSource().isEmpty() && amountChange == false) {
+        // if(!transaction.getSource().isEmpty() && balance(transaction.getSource()) < transaction.getAmount()){
+        //   throw new IllegalArgumentException();
+        // }
+      // }
+      // } else if (!transaction.getSource().isEmpty()) {
+      //   if(balance(transaction.getSource()) < transaction.getAmount()) {}
+      //   amountChange = true;
+      // } else if (amountChange == true) {
+        
+      // }
 
       if(!transaction.getSource().isEmpty()) {
         int balance = 0;
@@ -230,33 +243,13 @@ public class BlockChain implements Iterable<Transaction> {
           throw new NoSuchElementException();
         }
         Transaction transaction = curr.getBlock().getTransaction();
-        String user = "";
-        if (!transaction.getTarget().isEmpty()) {
-          user = transaction.getTarget();
-        } // if/else
-
-        while(users.contains(user)) {
-          if (!curr.getBlock().getTransaction().getTarget().isEmpty()) {
-            user = curr.getBlock().getTransaction().getTarget();
-          }
-          if (user.contains(user) || curr.getNextNode() != null) {
-            curr = curr.getNextNode();
-          }
-        }
-
-        // while (users.contains(user)) {
-        //   curr = curr.getNextNode();
-        //   if (curr == null) {
-        //     return user;
-        //   }
-
-        //   transaction = curr.getBlock().getTransaction();
-        //   if (!transaction.getTarget().isEmpty()) {
-        //     user = transaction.getTarget();
-        //   }
-        // }
-
+        String user = transaction.getTarget();
         users.add(user);
+        curr = curr.getNextNode();
+
+        while(curr != null && !users.contains(curr.getBlock().getTransaction().getTarget())) {
+          curr = curr.getNextNode();
+        }
         return user;
       } // next()
     };
