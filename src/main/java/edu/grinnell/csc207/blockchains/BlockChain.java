@@ -153,38 +153,56 @@ public class BlockChain implements Iterable<Transaction> {
    * @throws Exception
    *   If things are wrong at any block.
    */
-  public void check() throws Exception {
+  public Boolean check() throws Exception {
     Node curr = firstBlock;
     Hash prevHash = new Hash(new byte[] {});
-    Boolean amountChange = false;
-    int balance = 0;
+    // Boolean amountChange = false;
+    int sourceBalance = 0;
+    int targetBalance = 0;
 
     while (curr != null) {
       Block block = curr.getBlock();
       Transaction transaction = block.getTransaction();
-
-      if(!block.getPrevHash().equals(prevHash)) {
-        throw new Exception();
-      } // if
+      Hash newHash = block.getHash();
+      block.computeHash();
 
       if(!validator.isValid(block.getHash())) {
-        throw new Exception();
+        throw new Exception("isValid");
       } // if
 
-      // Not Yet Finished!!!!
-      if(!transaction.getSource().isEmpty() && amountChange == false) {
-        if(balance(transaction.getSource()) < transaction.getAmount()){
-          throw new IllegalArgumentException();
-        }
-      } else if (!transaction.getSource().isEmpty()) {
-        if(balance(transaction.getSource()) < transaction.getAmount())
-        amountChange = true;
-      }
 
+      if(!block.getPrevHash().equals(prevHash)) {
+        throw new Exception("getPrev");
+      } // if
+
+
+      if(!block.getHash().equals(newHash)) {
+        throw new Exception("getHash");
+      }
+      // Not Yet Finished!!!!
+      // if(!transaction.getSource().isEmpty() && amountChange == false) {
+        // if(!transaction.getSource().isEmpty() && balance(transaction.getSource()) < transaction.getAmount()){
+        //   throw new IllegalArgumentException();
+        // }
+      // }
+      // } else if (!transaction.getSource().isEmpty()) {
+      //   if(balance(transaction.getSource()) < transaction.getAmount()) {}
+      //   amountChange = true;
+      // } else if (amountChange == true) {
+        
+      // }
+
+      if(!transaction.getSource().isEmpty()) {
+        sourceBalance = balance(transaction.getSource());
+        if(sourceBalance < transaction.getAmount()) {
+          throw new Exception("Wrong Amount");
+        }
+      }
       
       prevHash = block.getHash();
       curr = curr.getNextNode();
     } // while-loop
+    return true;
   } // check()
 
   /**

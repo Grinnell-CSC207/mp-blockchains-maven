@@ -345,7 +345,7 @@ public class TestBlockChain {
     chain.check();
 
     chain.append(chain.mine(new Transaction("C", "D", 10)));
-    assertTrue(chain.isCorrect());
+    assertTrue(chain.check());
     chain.check();
   } // testValidityValid()
 
@@ -462,5 +462,4 @@ public class TestBlockChain {
     assertFalse(chain.isCorrect(), "modified chain is incorrect");
     assertCheckFails(chain, "modified chain is incorrect");
   } // testModifiedChain()
-
 } // class TestBlockChain
