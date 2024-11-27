@@ -153,18 +153,20 @@ public class BlockChain implements Iterable<Transaction> {
    * @throws Exception
    *   If things are wrong at any block.
    */
-  public Boolean check() throws Exception {
+  public void check() throws Exception {
     Node curr = firstBlock;
     Hash prevHash = new Hash(new byte[] {});
     // Boolean amountChange = false;
-    int sourceBalance = 0;
-    int targetBalance = 0;
 
     while (curr != null) {
       Block block = curr.getBlock();
       Transaction transaction = block.getTransaction();
       Hash newHash = block.getHash();
       block.computeHash();
+
+      if(transaction.getAmount() < 0) {
+        throw new Exception("Invalid negative transaction");
+      }
 
       if(!validator.isValid(block.getHash())) {
         throw new Exception("isValid");
@@ -193,16 +195,29 @@ public class BlockChain implements Iterable<Transaction> {
       // }
 
       if(!transaction.getSource().isEmpty()) {
-        sourceBalance = balance(transaction.getSource());
-        if(sourceBalance < transaction.getAmount()) {
-          throw new Exception("Wrong Amount");
+        int balance = 0;
+        Node temp = firstBlock;
+
+        while (temp != curr) {
+          Transaction blockTrans = temp.getBlock().getTransaction();
+
+          if (transaction.getSource().equals(blockTrans.getTarget())) {
+            balance += blockTrans.getAmount();
+          } else if (transaction.getSource().equals(blockTrans.getSource())) {
+            balance -= blockTrans.getAmount();
+          }
+
+          temp = temp.getNextNode();
+        }
+
+        if(balance < transaction.getAmount()) {
+          throw new Exception("Invalid amount");
         }
       }
       
       prevHash = block.getHash();
       curr = curr.getNextNode();
     } // while-loop
-    return true;
   } // check()
 
   /**
