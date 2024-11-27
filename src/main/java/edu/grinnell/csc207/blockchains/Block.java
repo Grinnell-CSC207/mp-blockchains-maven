@@ -16,10 +16,33 @@ public class Block {
   // | Fields |
   // +--------+
 
+  /**
+   * The number of the block.
+   */
   private int num;
+
+
+  /**
+   * The transaction for the block.
+   */
   public Transaction transaction;
+
+
+  /**
+   * The hash for the previous block.
+   */
   private Hash prevHash;
+
+
+  /**
+   * The nonce for the block.
+   */
   public long nonce;
+
+
+  /**
+   * The hash for the current block.
+   */
   private Hash currHash;
 
   // +--------------+------------------------------------------------
@@ -41,17 +64,17 @@ public class Block {
    *   The validator used to check the block.
    */
   public Block(int num, Transaction transaction, Hash prevHash,
-      HashValidator check) {
+    HashValidator check) {
 
-      this.num = num;
-      this.transaction = transaction;
-      this.prevHash = prevHash;
+    this.num = num;
+    this.transaction = transaction;
+    this.prevHash = prevHash;
+    this.computeHash();
+
+    while (!check.isValid(this.currHash)) {
+      this.nonce++;
       this.computeHash();
-      
-      while (!check.isValid(this.currHash)) {
-        this.nonce++;
-        this.computeHash();
-      } // while-loop
+    } // while-loop
   } // Block(int, Transaction, Hash, HashValidator)
 
   /**
@@ -104,7 +127,8 @@ public class Block {
 
       this.currHash = new Hash(md.digest());
     } catch (Exception e) {
-    }
+      // No exception thrown
+    } // try/catch
   } // computeHash()
 
   // +---------+-----------------------------------------------------
