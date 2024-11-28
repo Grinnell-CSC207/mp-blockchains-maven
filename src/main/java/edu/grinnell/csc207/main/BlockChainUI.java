@@ -181,7 +181,6 @@ public class BlockChainUI {
             pen.printf("\n%s", users.next().toString());
           } // loop
           break;
-
         default:
           pen.printf("invalid command: '%s'. Try again.\n", command);
           break;
