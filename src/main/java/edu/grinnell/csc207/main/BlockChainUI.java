@@ -38,21 +38,21 @@ public class BlockChainUI {
    * Print out the instructions.
    *
    * @param pen
-   *   The pen used for printing instructions.
+   *            The pen used for printing instructions.
    */
   public static void instructions(PrintWriter pen) {
     pen.println("""
-      Valid commands:
-        mine: discovers the nonce for a given transaction
-        append: appends a new block onto the end of the chain
-        remove: removes the last block from the end of the chain
-        check: checks that the block chain is valid
-        users: prints a list of users
-        balance: finds a user's balance
-        transactions: prints out the chain of transactions
-        blocks: prints out the chain of blocks (for debugging only)
-        help: prints this list of commands
-        quit: quits the program""");
+        Valid commands:
+          mine: discovers the nonce for a given transaction
+          append: appends a new block onto the end of the chain
+          remove: removes the last block from the end of the chain
+          check: checks that the block chain is valid
+          users: prints a list of users
+          balance: finds a user's balance
+          transactions: prints out the chain of transactions
+          blocks: prints out the chain of blocks (for debugging only)
+          help: prints this list of commands
+          quit: quits the program""");
   } // instructions(PrintWriter)
 
   // +------+--------------------------------------------------------
@@ -63,25 +63,24 @@ public class BlockChainUI {
    * Run the UI.
    *
    * @param args
-   *   Command-line arguments (currently ignored).
+   *             Command-line arguments (currently ignored).
    */
   public static void main(String[] args) throws Exception {
     PrintWriter pen = new PrintWriter(System.out, true);
     BufferedReader eyes = new BufferedReader(new InputStreamReader(System.in));
 
     // Set up our blockchain.
-    HashValidator validator =
-        (h) -> {
-          if (h.length() < VALIDATOR_BYTES) {
-            return false;
-          } // if
-          for (int v = 0; v < VALIDATOR_BYTES; v++) {
-            if (h.get(v) != 0) {
-              return false;
-            } // if
-          } // for
-          return true;
-        };
+    HashValidator validator = (h) -> {
+      if (h.length() < VALIDATOR_BYTES) {
+        return false;
+      } // if
+      for (int v = 0; v < VALIDATOR_BYTES; v++) {
+        if (h.get(v) != 0) {
+          return false;
+        } // if
+      } // for
+      return true;
+    };
     BlockChain chain = new BlockChain(validator);
 
     instructions(pen);
@@ -130,7 +129,7 @@ public class BlockChainUI {
           Iterator<Block> blocks = chain.blocks();
           while (blocks.hasNext()) {
             pen.printf("\n%s", blocks.next().toString());
-          }
+          } // loop
           break;
 
         case "check":
@@ -139,7 +138,7 @@ public class BlockChainUI {
             pen.printf("\nThe Blockchain checks out.");
           } else {
             pen.printf("\nThe Blockchain does not check out.");
-          }
+          } // if
           break;
 
         case "help":
@@ -150,7 +149,7 @@ public class BlockChainUI {
           source = IOUtils.readLine(pen, eyes, "Source (return for deposit): ");
           target = IOUtils.readLine(pen, eyes, "Target: ");
           amount = IOUtils.readInt(pen, eyes, "Amount: ");
-          //Block b = new Block(blknum, )
+          // Block b = new Block(blknum, )
           Block b = chain.mine(new Transaction(source, target, amount));
           pen.println("Nonce: " + b.getNonce());
           break;
@@ -165,7 +164,7 @@ public class BlockChainUI {
             pen.printf("\nRemoved last element.");
           } else {
             pen.printf("\nNo last elmeent to remove.");
-          }
+          } // if else
 
           break;
 
@@ -173,14 +172,14 @@ public class BlockChainUI {
           Iterator<Transaction> transacts = chain.iterator();
           while (transacts.hasNext()) {
             pen.printf("\n%s", transacts.next().toString());
-          }
+          } // loop
           break;
 
         case "users":
-        Iterator<String> users = chain.users();
-        while (users.hasNext()) {
-          pen.printf("\n%s", users.next().toString());
-        }
+          Iterator<String> users = chain.users();
+          while (users.hasNext()) {
+            pen.printf("\n%s", users.next().toString());
+          } // loop
           break;
 
         default:

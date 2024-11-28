@@ -1,7 +1,7 @@
 package edu.grinnell.csc207.blockchains;
+
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
-
 
 /**
  * Blocks to be stored in blockchains.
@@ -20,24 +20,20 @@ public class Block {
    */
   private int num;
 
-
   /**
    * The transaction for the block.
    */
   public Transaction transaction;
-
 
   /**
    * The hash for the previous block.
    */
   private Hash prevHash;
 
-
   /**
    * The nonce for the block.
    */
   public long nonce;
-
 
   /**
    * The hash for the current block.
@@ -54,13 +50,13 @@ public class Block {
    * of the validator.
    *
    * @param num
-   *   The number of the block.
+   *                    The number of the block.
    * @param transaction
-   *   The transaction for the block.
+   *                    The transaction for the block.
    * @param prevHash
-   *   The hash of the previous block.
+   *                    The hash of the previous block.
    * @param check
-   *   The validator used to check the block.
+   *                    The validator used to check the block.
    */
   public Block(int num, Transaction transaction, Hash prevHash,
       HashValidator check) {
@@ -70,7 +66,6 @@ public class Block {
     this.prevHash = prevHash;
     this.nonce = 0;
     this.computeHash();
-
 
     while (!check.isValid(this.currHash)) {
       this.nonce++;
@@ -82,13 +77,13 @@ public class Block {
    * Create a new block, computing the hash for the block.
    *
    * @param num
-   *   The number of the block.
+   *                    The number of the block.
    * @param transaction
-   *   The transaction for the block.
+   *                    The transaction for the block.
    * @param prevHash
-   *   The hash of the previous block.
+   *                    The hash of the previous block.
    * @param nonce
-   *   The nonce of the block.
+   *                    The nonce of the block.
    */
   public Block(int num, Transaction transaction, Hash prevHash, long nonce) {
     this.num = num;
@@ -115,7 +110,7 @@ public class Block {
       byte[] byteTranSrc = transaction.getSource().getBytes();
       byte[] byteTranTgt = transaction.getTarget().getBytes();
       byte[] byteTranAmt = ByteBuffer.allocate(Integer.BYTES)
-            .putInt(transaction.getAmount()).array();
+          .putInt(transaction.getAmount()).array();
 
       byte[] bytePrev = this.prevHash.getBytes();
       byte[] byteLong = ByteBuffer.allocate(Long.BYTES).putLong(nonce).array();
@@ -153,8 +148,8 @@ public class Block {
    */
   public Transaction getTransaction() {
     return new Transaction(this.transaction.getSource(),
-                           this.transaction.getTarget(),
-                           this.transaction.getAmount());
+        this.transaction.getTarget(),
+        this.transaction.getAmount());
   } // getTransaction()
 
   /**
@@ -190,12 +185,9 @@ public class Block {
    * @return a string representation of the block.
    */
   public String toString() {
-    String blk = "Block " + this.getNum()
-                          + " (" + this.getTransaction().toString()
-                          + " Nonce: " + this.getNonce()
-                          + " prevHash: " + this.prevHash
-                          + " hash: " + this.getHash()
-                          + ")";
+    String blk = "Block " + this.getNum() + " (" + this.getTransaction().toString()
+        + " Nonce: " + this.getNonce() + " prevHash: " + this.prevHash
+        + " hash: " + this.getHash() + ")";
     return blk;
   } // toString()
 } // class Block
