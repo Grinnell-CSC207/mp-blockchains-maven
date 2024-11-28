@@ -69,12 +69,12 @@ public class Block {
     this.num = num;
     this.transaction = transaction;
     this.prevHash = prevHash;
+    this.nonce = 0;
     this.computeHash();
-    Random random = new Random();
-    this.nonce = random.nextInt(100, 100000);
+    
 
     while (!check.isValid(this.currHash)) {
-      this.nonce = random.nextInt(100, 100000);
+      this.nonce++;
       this.computeHash();
     } // while-loop
   } // Block(int, Transaction, Hash, HashValidator)

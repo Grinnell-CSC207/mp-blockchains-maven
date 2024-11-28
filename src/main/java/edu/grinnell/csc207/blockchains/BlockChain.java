@@ -17,10 +17,28 @@ public class BlockChain implements Iterable<Transaction> {
   // | Fields |
   // +--------+
     
+    /**
+     * The first block in the block chain.
+     */
     private Node firstBlock;
+
+
+    /**
+     * The last block in the blockchain.
+     */
     private Node lastBlock;
+
+    /**
+     * The size of the blockchain.
+     */
     private int size;
+
+
+    /**
+     * The validator used to check elements.
+     */
     private HashValidator validator;
+
   // +--------------+------------------------------------------------
   // | Constructors |
   // +--------------+
