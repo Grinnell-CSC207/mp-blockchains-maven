@@ -1,7 +1,6 @@
 package edu.grinnell.csc207.blockchains;
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
-import java.util.Random;
 
 
 /**
@@ -71,7 +70,7 @@ public class Block {
     this.prevHash = prevHash;
     this.nonce = 0;
     this.computeHash();
-    
+
 
     while (!check.isValid(this.currHash)) {
       this.nonce++;
@@ -191,7 +190,12 @@ public class Block {
    * @return a string representation of the block.
    */
   public String toString() {
-    String blk = "Block " + this.getNum() + " (" + this.getTransaction().toString() + " Nonce: " + this.getNonce() + " prevHash: " + this.prevHash + " hash: " + this.getHash() + ")";
+    String blk = "Block " + this.getNum()
+                          + " (" + this.getTransaction().toString()
+                          + " Nonce: " + this.getNonce()
+                          + " prevHash: " + this.prevHash
+                          + " hash: " + this.getHash()
+                          + ")";
     return blk;
   } // toString()
 } // class Block

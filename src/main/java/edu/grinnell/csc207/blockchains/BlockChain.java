@@ -3,7 +3,6 @@ package edu.grinnell.csc207.blockchains;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import edu.grinnell.csc207.blockchains.Node;
 import java.util.List;
 
 /**
@@ -16,28 +15,28 @@ public class BlockChain implements Iterable<Transaction> {
   // +--------+------------------------------------------------------
   // | Fields |
   // +--------+
-    
-    /**
-     * The first block in the block chain.
-     */
-    private Node firstBlock;
+
+  /**
+  * The first block in the block chain.
+  */
+  private Node firstBlock;
 
 
-    /**
-     * The last block in the blockchain.
-     */
-    private Node lastBlock;
+ /**
+  * The last block in the blockchain.
+  */
+  private Node lastBlock;
 
-    /**
-     * The size of the blockchain.
-     */
-    private int size;
+ /**
+  * The size of the blockchain.
+  */
+  private int size;
 
 
-    /**
-     * The validator used to check elements.
-     */
-    private HashValidator validator;
+ /**
+  * The validator used to check elements.
+  */
+  private HashValidator validator;
 
   // +--------------+------------------------------------------------
   // | Constructors |
@@ -161,7 +160,7 @@ public class BlockChain implements Iterable<Transaction> {
       return true;
     } catch (Exception e) {
       return false;
-    }
+    } // try/catch
   } // isCorrect()
 
   /**
@@ -184,9 +183,9 @@ public class BlockChain implements Iterable<Transaction> {
       Hash newHash = block.getHash();
       block.computeHash();
 
-      if(transaction.getAmount() < 0) {
+      if (transaction.getAmount() < 0) {
         throw new Exception("Invalid negative transaction");
-      }
+      } // if
 
       if (!validator.isValid(block.getHash())) {
         throw new Exception("The hash is not valid.");
@@ -209,10 +208,10 @@ public class BlockChain implements Iterable<Transaction> {
             balance += blockTrans.getAmount();
           } else if (transaction.getSource().equals(blockTrans.getSource())) {
             balance -= blockTrans.getAmount();
-          }
+          } // if/else
 
           temp = temp.getNextNode();
-        }
+        } // while-loop
 
         if (balance < transaction.getAmount()) {
           throw new Exception("Invalid negative transaction.");
@@ -289,10 +288,9 @@ public class BlockChain implements Iterable<Transaction> {
     while (curr != null) {
       Transaction transaction = curr.getBlock().getTransaction();
       int amount = transaction.getAmount();
-      if(user.equals(transaction.getTarget())) {
+      if (user.equals(transaction.getTarget())) {
         balance += amount;
-      }
-      else if (user.equals(transaction.getSource())) {
+      } else if (user.equals(transaction.getSource())) {
         balance -= amount;
       } // if/else
 
@@ -351,5 +349,4 @@ public class BlockChain implements Iterable<Transaction> {
       } // next()
     };
   } // iterator()
-
 } // class BlockChain
