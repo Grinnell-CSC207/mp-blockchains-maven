@@ -4,12 +4,13 @@ An exploration of blockchains in Java.
 
 Authors
 
-* Your name here.
-* Your name here.
+* Alex Cyphers
+* Luis Lopez
 * Samuel A. Rebelsky (starter code)
 
 Acknowledgements
 
-* _Forthcoming_.
+* Referenced from Lab-Linked-Lists-Maven
+* Samuel Rebelsky helped greatlly for the 'next()' is iterator 'users()'
 
-This code may be found at <https://github.com/USERNAME/mp-blockchains-maven>. The original code may be found at <https://github.com/Grinnell-CSC207/mp-blockchinas-maven>.
+This code may be found at <https://github.com/Lui-Lop/mp-blockchains-maven.git>. The original code may be found at <https://github.com/Grinnell-CSC207/mp-blockchinas-maven>.

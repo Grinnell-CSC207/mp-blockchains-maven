@@ -1,15 +1,29 @@
 package edu.grinnell.csc207.blockchains;
+import java.util.Arrays;
 
 /**
  * Encapsulated hashes.
  *
- * @author Your Name Here
+ * @author Alex Cyphers
+ * @author Luis Lopez
  * @author Samuel A. Rebelsky
  */
 public class Hash {
   // +--------+------------------------------------------------------
   // | Fields |
   // +--------+
+
+
+  /**
+   * The byte array of data to copy into the hash.
+   */
+  private byte[] byteData;
+
+
+  /**
+   * The number of bytes that are in the hash.
+   */
+  private int length;
 
   // +--------------+------------------------------------------------
   // | Constructors |
@@ -22,7 +36,8 @@ public class Hash {
    *   The data to copy into the hash.
    */
   public Hash(byte[] data) {
-    // STUB
+    this.byteData = Arrays.copyOf(data, data.length);
+    this.length = this.byteData.length;
   } // Hash(byte[])
 
   // +---------+-----------------------------------------------------
@@ -35,7 +50,7 @@ public class Hash {
    * @return the number of bytes in the hash.
    */
   public int length() {
-    return 0;   // STUB
+    return this.byteData.length;
   } // length()
 
   /**
@@ -48,7 +63,7 @@ public class Hash {
    * @return the ith byte
    */
   public byte get(int i) {
-    return 0;   // STUB
+    return this.byteData[i];
   } // get()
 
   /**
@@ -58,7 +73,8 @@ public class Hash {
    * @return a copy of the bytes in the hash.
    */
   public byte[] getBytes() {
-    return new byte[] {1, 2, 3, 4, 5};      // STUB
+    byte[] copy = Arrays.copyOf(byteData, this.length);
+    return copy;
   } // getBytes()
 
   /**
@@ -67,7 +83,11 @@ public class Hash {
    * @return the hash as a hex string.
    */
   public String toString() {
-    return "";          // STUB
+    String str = "";
+    for (int i = 0; i < this.length; i++) {
+      str = str + String.format("%02X", this.byteData[i]);
+    } // for-loop
+    return str;
   } // toString()
 
   /**
@@ -80,8 +100,13 @@ public class Hash {
    *   otherwise.
    */
   public boolean equals(Object other) {
-    return false;       // STUB
+    if (other instanceof Hash) {
+      return Arrays.equals(((Hash) other).byteData, this.byteData);
+    } else {
+      return false;
+    } // if/else
   } // equals(Object)
+
 
   /**
    * Get the hash code of this object.

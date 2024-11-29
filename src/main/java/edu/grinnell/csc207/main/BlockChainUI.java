@@ -4,17 +4,20 @@ import edu.grinnell.csc207.blockchains.Block;
 import edu.grinnell.csc207.blockchains.BlockChain;
 import edu.grinnell.csc207.blockchains.HashValidator;
 import edu.grinnell.csc207.blockchains.Transaction;
+import edu.grinnell.csc207.blockchains.Hash;
 
 import edu.grinnell.csc207.util.IOUtils;
 
 import java.io.PrintWriter;
+import java.util.Iterator;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 /**
  * A simple UI for our BlockChain class.
  *
- * @author Your Name Here
+ * @author Luis Lopez
+ * @author Alex Cyphers
  * @author Samuel A. Rebelsky
  */
 public class BlockChainUI {
@@ -25,7 +28,7 @@ public class BlockChainUI {
   /**
    * The number of bytes we validate. Should be set to 3 before submitting.
    */
-  static final int VALIDATOR_BYTES = 0;
+  static final int VALIDATOR_BYTES = 3;
 
   // +---------+-----------------------------------------------------
   // | Helpers |
@@ -35,21 +38,21 @@ public class BlockChainUI {
    * Print out the instructions.
    *
    * @param pen
-   *   The pen used for printing instructions.
+   *            The pen used for printing instructions.
    */
   public static void instructions(PrintWriter pen) {
     pen.println("""
-      Valid commands:
-        mine: discovers the nonce for a given transaction
-        append: appends a new block onto the end of the chain
-        remove: removes the last block from the end of the chain
-        check: checks that the block chain is valid
-        users: prints a list of users
-        balance: finds a user's balance
-        transactions: prints out the chain of transactions
-        blocks: prints out the chain of blocks (for debugging only)
-        help: prints this list of commands
-        quit: quits the program""");
+        Valid commands:
+          mine: discovers the nonce for a given transaction
+          append: appends a new block onto the end of the chain
+          remove: removes the last block from the end of the chain
+          check: checks that the block chain is valid
+          users: prints a list of users
+          balance: finds a user's balance
+          transactions: prints out the chain of transactions
+          blocks: prints out the chain of blocks (for debugging only)
+          help: prints this list of commands
+          quit: quits the program""");
   } // instructions(PrintWriter)
 
   // +------+--------------------------------------------------------
@@ -60,25 +63,24 @@ public class BlockChainUI {
    * Run the UI.
    *
    * @param args
-   *   Command-line arguments (currently ignored).
+   *             Command-line arguments (currently ignored).
    */
   public static void main(String[] args) throws Exception {
     PrintWriter pen = new PrintWriter(System.out, true);
     BufferedReader eyes = new BufferedReader(new InputStreamReader(System.in));
 
     // Set up our blockchain.
-    HashValidator validator =
-        (h) -> {
-          if (h.length() < VALIDATOR_BYTES) {
-            return false;
-          } // if
-          for (int v = 0; v < VALIDATOR_BYTES; v++) {
-            if (h.get(v) != 0) {
-              return false;
-            } // if
-          } // for
-          return true;
-        };
+    HashValidator validator = (h) -> {
+      if (h.length() < VALIDATOR_BYTES) {
+        return false;
+      } // if
+      for (int v = 0; v < VALIDATOR_BYTES; v++) {
+        if (h.get(v) != 0) {
+          return false;
+        } // if
+      } // for
+      return true;
+    };
     BlockChain chain = new BlockChain(validator);
 
     instructions(pen);
@@ -99,19 +101,44 @@ public class BlockChainUI {
 
       switch (command.toLowerCase()) {
         case "append":
-          pen.printf("Command '%s' is not yet implemented", command);
+          pen.printf("\nSource (return for deposit): ");
+          String src = eyes.readLine();
+          pen.printf("\nTarget: ");
+          String tgt = eyes.readLine();
+          pen.printf("\nAmount: ");
+          String amnt = eyes.readLine();
+          int amt = Integer.valueOf(amnt);
+          pen.printf("\nNonce: ");
+          String nnc = eyes.readLine();
+          long nonce = Long.valueOf(nnc);
+          Transaction trans = new Transaction(src, tgt, amt);
+          Hash hash = chain.getHash();
+          int blknum = chain.getSize();
+          Block blk = new Block(blknum, trans, hash, nonce);
+          chain.append(blk);
+          pen.printf("\nAppended: %s", blk.toString(), nonce);
           break;
 
         case "balance":
-          pen.printf("Command '%s' is not yet implemented", command);
+          pen.printf("\nUser: ");
+          String user = eyes.readLine();
+          pen.printf("\n%s's balance is %d", user, chain.balance(user));
           break;
 
         case "blocks":
-          pen.printf("Command '%s' is not yet implemented", command);
+          Iterator<Block> blocks = chain.blocks();
+          while (blocks.hasNext()) {
+            pen.printf("\n%s", blocks.next().toString());
+          } // loop
           break;
 
         case "check":
-          pen.printf("Command '%s' is not yet implemented", command);
+          boolean right = chain.isCorrect();
+          if (right) {
+            pen.printf("\nThe Blockchain checks out.");
+          } else {
+            pen.printf("\nThe Blockchain does not check out.");
+          } // if
           break;
 
         case "help":
@@ -122,6 +149,7 @@ public class BlockChainUI {
           source = IOUtils.readLine(pen, eyes, "Source (return for deposit): ");
           target = IOUtils.readLine(pen, eyes, "Target: ");
           amount = IOUtils.readInt(pen, eyes, "Amount: ");
+          // Block b = new Block(blknum, )
           Block b = chain.mine(new Transaction(source, target, amount));
           pen.println("Nonce: " + b.getNonce());
           break;
@@ -131,17 +159,28 @@ public class BlockChainUI {
           break;
 
         case "remove":
-          pen.printf("Command '%s' is not yet implemented", command);
+          boolean remove = chain.removeLast();
+          if (remove) {
+            pen.printf("\nRemoved last element.");
+          } else {
+            pen.printf("\nNo last elmeent to remove.");
+          } // if else
+
           break;
 
         case "transactions":
-          pen.printf("Command '%s' is not yet implemented", command);
+          Iterator<Transaction> transacts = chain.iterator();
+          while (transacts.hasNext()) {
+            pen.printf("\n%s", transacts.next().toString());
+          } // loop
           break;
 
         case "users":
-          pen.printf("Command '%s' is not yet implemented", command);
+          Iterator<String> users = chain.users();
+          while (users.hasNext()) {
+            pen.printf("\n%s", users.next().toString());
+          } // loop
           break;
-
         default:
           pen.printf("invalid command: '%s'. Try again.\n", command);
           break;

@@ -147,7 +147,7 @@ public class TestBlock {
     Block b = new Block(5, t, ph, (hash) -> true);
 
     assertEquals(5, b.getNum(), "number of validated block");
-    assertEquals(t, b.getTransaction(), "transaction in validated block");
+    assertEquals(t, b.getTransaction(), "transac1tion in validated block");
     assertEquals(ph, b.getPrevHash(), "previous hash in validated block");
   } // simpleValidatedBlockTest
 
@@ -181,7 +181,8 @@ public class TestBlock {
     assertEquals(t, b.getTransaction(), "transaction in 5-valid block");
     assertEquals(ph, b.getPrevHash(), "previous 5-valid hash");
     assertEquals(5, b.getHash().get(0), "valid hash (starts with 5)");
-  } // anotherValidatedBlockTest()
+  } // anotherValidatedBlockTest()String message = Integer.toString(num);
+
 
   /**
    * A deposit with a slightly more complicated validator.

@@ -462,5 +462,4 @@ public class TestBlockChain {
     assertFalse(chain.isCorrect(), "modified chain is incorrect");
     assertCheckFails(chain, "modified chain is incorrect");
   } // testModifiedChain()
-
 } // class TestBlockChain
