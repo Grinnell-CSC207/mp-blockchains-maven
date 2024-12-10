@@ -2,6 +2,8 @@ package edu.grinnell.csc207.blockchains;
 
 
 /**
+ * @author Luis Lopez
+ * @author Alex Cyphers
  * Class implements a single linked list which
  * expects blocks to be held in the nodes.
  */
